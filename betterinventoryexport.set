@@ -1,0 +1,6 @@
+Better Inventory Export
+9|This exports a file with items in your inventory to {BakkesModFolder}/data/inventory.{format}
+9|Either use the invent_dump_better command or press one of the buttons below
+0|Dump to CSV|invent_dump_better csv
+7|
+0|Dump to json|invent_dump_better json
