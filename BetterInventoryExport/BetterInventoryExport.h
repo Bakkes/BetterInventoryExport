@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bakkesmod/plugin/bakkesmodplugin.h"
-#include "bakkesmod/plugin/pluginwindow.h"
 #include <filesystem>
 
 constexpr auto plugin_version = "1.0";
@@ -70,7 +69,11 @@ public:
 	virtual void onUnload();
 
 	void OnInventDump(std::vector<std::string> params);
-	ProductStruct GetProductInfo(OnlineProductWrapper& pw);
+
+	ProductStruct GetProductInfo(ProductWrapper& pw);
+
+	ProductStruct GetOnlineProductInfo(OnlineProductWrapper& pw);
+
 
 	void export_csv(std::filesystem::path filename, std::vector<ProductStruct>& psv);
 	void export_json(std::filesystem::path filename, std::vector<ProductStruct>& psv);

@@ -116,7 +116,7 @@ void BetterInventoryExport::OnInventDump(std::vector<std::string> params)
 
 
 	auto itemsWrapper = gameWrapper->GetItemsWrapper();
-	auto inventoryUnlocked = itemsWrapper.GetUnlockedProducts();
+	auto inventoryUnlocked = itemsWrapper.GetCachedUnlockedProducts();
 	auto inventory = itemsWrapper.GetOwnedProducts();
 
 	std::vector<ProductStruct> products;
@@ -127,7 +127,7 @@ void BetterInventoryExport::OnInventDump(std::vector<std::string> params)
 	}
 	for (auto unlockedProduct : inventory)
 	{
-		products.push_back(GetProductInfo(unlockedProduct));
+		products.push_back(GetOnlineProductInfo(unlockedProduct));
 	}
 
 	//Remove any invalid products
@@ -149,15 +149,9 @@ void BetterInventoryExport::OnInventDump(std::vector<std::string> params)
 	}
 }
 
-ProductStruct BetterInventoryExport::GetProductInfo(OnlineProductWrapper& unlockedProduct)
+ProductStruct BetterInventoryExport::GetProductInfo(ProductWrapper& product)
 {
 	ProductStruct prodData;
-	auto product = unlockedProduct.GetProduct();
-	if (product.memory_address == NULL)
-	{
-		cvarManager->log("ERR? Invalid product " + std::to_string(unlockedProduct.GetProductID()));
-		return { -1 };
-	}
 	prodData.product_id = product.GetID();
 
 	if (auto longLabel = product.GetLongLabel(); !longLabel.IsNull())
@@ -177,6 +171,19 @@ ProductStruct BetterInventoryExport::GetProductInfo(OnlineProductWrapper& unlock
 	{
 		prodData.quality = qualityInfo->second.name;
 	}
+	return prodData;
+}
+
+ProductStruct BetterInventoryExport::GetOnlineProductInfo(OnlineProductWrapper& unlockedProduct)
+{
+	
+	auto product = unlockedProduct.GetProduct();
+	if (product.memory_address == NULL)
+	{
+		cvarManager->log("ERR? Invalid product " + std::to_string(unlockedProduct.GetProductID()));
+		return { -1 };
+	}
+	ProductStruct prodData = GetProductInfo(product);
 
 	for (auto attribute : unlockedProduct.GetAttributes())
 	{
