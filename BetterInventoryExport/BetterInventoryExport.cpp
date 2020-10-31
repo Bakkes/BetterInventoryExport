@@ -71,6 +71,10 @@ void BetterInventoryExport::onLoad()
 			{
 				productData.blueprint_item = productName.ToString();
 			}
+			if (auto displaySlot = product.GetDisplayLabelSlot(); !displaySlot.IsNull())
+			{
+				productData.slot = displaySlot.ToString();
+			}
 		}
 	};
 
