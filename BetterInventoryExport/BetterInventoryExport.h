@@ -64,6 +64,29 @@ private:
 		{(uint8_t)ProductQuality::Limited, {"Limited"}},
 		{(uint8_t)ProductQuality::Legacy, {"Legacy"}},
 	};
+	
+	//Make sure the index of the name in this vector matches the paintID
+	const std::vector<std::string> paintNames = {
+		"None",
+		"Crimson",
+		"Lime",
+		"Black",
+		"Sky Blue",
+		"Cobalt",
+		"Burnt Sienna",
+		"Forest Green",
+		"Purple",
+		"Pink",
+		"Orange",
+		"Grey",
+		"Titanium White",
+		"Saffron",
+		"Gold",
+		"Rose Gold",
+		"White Gold",
+		"Onyx",
+		"Platinum"
+	};
 public:
 	virtual void onLoad();
 	virtual void onUnload();
