@@ -15,21 +15,15 @@ void BetterInventoryExport::onLoad()
 	
 	attributeHandler["ProductAttribute_Painted_TA"] = [this](ProductAttributeWrapper paw, ProductStruct& productData) 
 	{
-		auto paintDB = gameWrapper->GetItemsWrapper().GetPaintDB();
 		ProductAttribute_PaintedWrapper papw(paw.memory_address);
-		if (paintDB.memory_address == NULL)
+		const int paintID = papw.GetPaintID();
+		if (paintID >= 0 && paintID < paintNames.size())
 		{
-			productData.paint = std::to_string(papw.GetPaintID());
+			productData.paint = paintNames.at(paintID);
 		}
 		else
 		{
-			productData.paint = paintDB.GetPaintName(papw.GetPaintID());
-			//cheap dirty hax to see if paint name is formatted as Blue_00 (remove after sdk fix)
-			//or not..
-			if (auto underscore = productData.paint.rfind("_"); underscore != std::string::npos)
-			{
-				productData.paint = productData.paint.substr(0, underscore);
-			}
+			productData.paint = std::to_string(papw.GetPaintID());
 		}
 	};
 	
