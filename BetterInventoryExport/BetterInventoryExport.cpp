@@ -121,11 +121,17 @@ void BetterInventoryExport::OnInventDump(std::vector<std::string> params)
 
 	for (auto unlockedProduct : inventoryUnlocked)
 	{
-		products.push_back(GetProductInfo(unlockedProduct));
+		if (!unlockedProduct.IsNull())
+		{
+			products.push_back(GetProductInfo(unlockedProduct));
+		}
 	}
 	for (auto unlockedProduct : inventory)
 	{
-		products.push_back(GetOnlineProductInfo(unlockedProduct));
+		if (unlockedProduct.memory_address != NULL)
+		{
+			products.push_back(GetOnlineProductInfo(unlockedProduct));
+		}
 	}
 
 	//Remove any invalid products
